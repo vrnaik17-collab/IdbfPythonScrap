@@ -1,9 +1,9 @@
 name: IDBF Bangalore Scraper
 
 on:
-  workflow_dispatch:        # ← Run manually from GitHub Actions tab (one click)
+  workflow_dispatch:
   schedule:
-    - cron: '0 2 * * *'    # ← Also runs daily at 2AM UTC (optional, remove if not needed)
+    - cron: '0 2 * * *'
 
 jobs:
   scrape:
@@ -27,8 +27,9 @@ jobs:
       - name: Upload results as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: idbf-results
+          name: idbf-results-${{ github.run_number }}
           path: |
             idbf_businesses.csv
             idbf_businesses.xlsx
           retention-days: 30
+          if-no-files-found: warn
