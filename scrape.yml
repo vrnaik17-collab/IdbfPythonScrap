@@ -1,0 +1,34 @@
+name: IDBF Bangalore Scraper
+
+on:
+  workflow_dispatch:        # ← Run manually from GitHub Actions tab (one click)
+  schedule:
+    - cron: '0 2 * * *'    # ← Also runs daily at 2AM UTC (optional, remove if not needed)
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 pandas openpyxl lxml
+
+      - name: Run scraper
+        run: python scraper.py
+
+      - name: Upload results as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: idbf-results
+          path: |
+            idbf_businesses.csv
+            idbf_businesses.xlsx
+          retention-days: 30
