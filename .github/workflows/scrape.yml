@@ -19,12 +19,12 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4 pandas openpyxl lxml
+        run: pip install -r requirements.txt
 
       - name: Run scraper
         run: python scraper.py
 
-      - name: Upload results as artifact
+      - name: Upload results
         uses: actions/upload-artifact@v4
         with:
           name: idbf-results-${{ github.run_number }}
